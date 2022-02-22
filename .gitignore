@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Pytorch weights
+*.pt
+
+# Zip files
+*.zip
