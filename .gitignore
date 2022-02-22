@@ -131,5 +131,8 @@ dmypy.json
 # Pytorch weights
 *.pt
 
+# Result gifs 
+*.gif
+
 # Zip files
 *.zip
