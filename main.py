@@ -1,4 +1,3 @@
-import gym
 from common_files.utils import MetricLogger, colorize, load_hyperparams
 
 hyperparams = load_hyperparams()
@@ -8,6 +7,8 @@ if 'cnn' in AGENT:
     # For headless rendering
     import os
     os.environ['PYOPENGL_PLATFORM'] = 'egl'
+
+import gym
 
 if AGENT == 'td3':
     from td3.agent import Agent
