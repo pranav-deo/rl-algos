@@ -1,25 +1,35 @@
-from ast import Num
 import gym
-import time
-from common_files.utils import MetricLogger, colorize
+from common_files.utils import MetricLogger, colorize, load_hyperparams
 
-AGENT = 'sac'
+hyperparams = load_hyperparams()
+AGENT = hyperparams['algo']['agent']
+
+if 'cnn' in AGENT:
+    # For headless rendering
+    import os
+    os.environ['PYOPENGL_PLATFORM'] = 'egl'
 
 if AGENT == 'td3':
     from td3.agent import Agent
 elif AGENT == 'sac':
     from sac.agent import Agent
+elif AGENT == 'sac-cnn':
+    from sac.agent import VisualAgent
 
-# Use only environments with continuous action spaces
-env_name = 'LunarLanderContinuous-v2'
-
+# Use only environments with continuous action spaces before changes
+env_name = hyperparams['env_name']
 env = gym.make(env_name)
-
 obs_init = env.reset()
 
-num_epochs = 50
+num_epochs = hyperparams['num_epochs']
 logger = MetricLogger(env_name, AGENT)
-agent = Agent(obs_len=obs_init.shape[0], act_len=env.action_space.sample().shape[0], env_fn=lambda: gym.make(env_name),max_env_steps=1000, logger=logger)
+
+if 'cnn' in AGENT:
+    # obs_init_img = get_resized_img_from_env(env)
+    agent = VisualAgent(obs_size=(3,64,64), act_len=env.action_space.sample().shape[0], env_fn=lambda: gym.make(env_name),max_env_steps=1000, logger=logger)
+else:
+    agent = Agent(obs_len=obs_init.shape[0], act_len=env.action_space.sample().shape[0], env_fn=lambda: gym.make(env_name),max_env_steps=1000, logger=logger)
+
 
 print(colorize(f'Training {AGENT} agent on {env_name} Environment...', color='yellow'))
 

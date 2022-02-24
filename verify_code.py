@@ -3,7 +3,7 @@ import gym
 
 from common_files.utils import T
 import matplotlib.pyplot as plt
-from common_files.gym_to_gif import combine_gifs, label_with_episode_number
+from common_files.gym_to_gif import combine_gifs, label_with_episode_number, plot_from_saved_metrics
 import seaborn as sns; sns.set()
 import os
 import imageio
@@ -61,11 +61,12 @@ def main(epi):
 
 if __name__ == "__main__":
     env_name = 'LunarLanderContinuous-v2'
-    epi_list = [10*i for i in range(1, 6)]
+    epi_list = [10*i for i in range(1, 21)]
     epi_rewards_dic = {}
     
     for epi in epi_list:
         main(epi)
 
     json.dump(epi_rewards_dic, open(f"./{AGENT}/{env_name}/epi_rewards_dic.json", 'w'))
-    combine_gifs(AGENT, env_name, start_epoch=10, end_epoch=50, interval=10, num_rows=1, num_columns=5)
+    combine_gifs(AGENT, env_name, start_epoch=10, end_epoch=200, interval=10, num_rows=4, num_columns=5)
+    plot_from_saved_metrics(AGENT, env_name)

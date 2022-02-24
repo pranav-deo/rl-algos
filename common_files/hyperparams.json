@@ -1,0 +1,33 @@
+{
+
+    "buffer_size":      5e4,
+    "num_epochs":       50,
+    "env_name":         "LunarLanderContinuous-v2",
+    "Episode=Epoch":    false,
+    
+    "algo":
+    {
+        "agent":                    "sac-cnn",
+        "discount_factor":          0.99,
+        "num_test_episodes":        10,
+        "num_timesteps":            4000,
+        "actor_lr":                 1e-3,
+        "critic_lr":                1e-3,
+        "policy_update_freq":       1,
+        "alpha":                    0.2,
+        "update_weight":            0.995,
+        "update_frequency":         50,
+        "update_start":             1000,
+        "uniform_steps_counter":    1000,
+        "num_updates_per_cycle":    50,
+        "minibatch_length":         100
+    },
+
+    "net":
+    {
+        "linear_dim":   256,
+        "stride":       3,
+        "kernel_size":  5,
+        "out_channels": [6, 12]
+    }
+}

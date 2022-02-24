@@ -130,6 +130,7 @@ dmypy.json
 
 # Pytorch weights
 *.pt
+*.npy
 
 # Result gifs 
 *.gif

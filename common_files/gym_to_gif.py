@@ -55,6 +55,26 @@ def combine_gifs(agent_name, env_name, start_epoch, end_epoch, interval, num_row
         gif.close()
     new_gif.close()
 
+def plot_from_saved_metrics(algo, env):
+    actor_losses = np.load(f'./{algo}/{env}/actor_losses.npy')
+    critic_losses = np.load(f'./{algo}/{env}/critic_losses.npy')
+    rewards = np.load(f'./{algo}/{env}/rewards.npy')
+
+    plt.figure()
+    plt.plot(np.arange(1, len(actor_losses)+1), actor_losses, label='Actor Losses')
+    plt.plot(np.arange(1, len(critic_losses)+1), critic_losses, label='Critic Losses')
+    plt.legend()
+    plt.xlabel('Number of Epochs')
+    plt.savefig(f'{algo}/{env}/actor_critic_losses.png', bbox_inches='tight')
+    plt.show()
+    plt.figure()
+    plt.plot(np.arange(1, len(rewards)+1), rewards, label='reward')
+    plt.legend()
+    plt.xlabel('Number of Epochs')
+    plt.savefig(f'{algo}/{env}/rewards.png', bbox_inches='tight')
+    plt.show()
+
+
 if __name__=="__main__":
     env = gym.make('CartPole-v1')
     frames = []
